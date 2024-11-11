@@ -380,7 +380,7 @@ end)
 
 RegisterNetEvent('jim-mining:MineOre:Drill', function(data) local Ped = PlayerPedId()
 	if isMining then return else isMining = true end -- Stop players from doubling up the event
-	if HasItem("drillbit", 1) then
+	if HasItemClient("drillbit", 1) then
 		-- Sounds & Anim loading
 		loadDrillSound()
 		local dict = "anim@heists@fleeca_bank@drilling"
@@ -512,7 +512,7 @@ RegisterNetEvent('jim-mining:CraftMenu', function(data)
 						print(l)
 						text = text..GetItemLabel(l)..number.."\n"
 						settext = text
-						checktable[l] = HasItem(l, b)
+						checktable[l] = HasItemClient(l, b)
 					end
 					for _, v in pairs(checktable) do if v == false then disable = true break end end
 					if not disable then setheader = setheader.." ✔️" end
@@ -539,7 +539,7 @@ RegisterNetEvent('jim-mining:Crafting:MultiCraft', function(data)
     local success = Config.MultiCraftAmounts local Menu = {}
     for k in pairs(success) do success[k] = true
         for l, b in pairs(data.craft[data.item]) do
-            local has = HasItem(l, (b * k)) if not has then success[k] = false break else success[k] = true end
+            local has = HasItemClient(l, (b * k)) if not has then success[k] = false break else success[k] = true end
 		end end
 	Menu[#Menu+1] = { icon = "fas fa-arrow-left", title = Loc[Config.Lan].info["return"], header = "", txt = Loc[Config.Lan].info["return"], params = { event = "jim-mining:CraftMenu", args = data }, event = "jim-mining:CraftMenu", args = data }
 	for k in pairsByKeys(success) do
@@ -565,7 +565,7 @@ RegisterNetEvent('jim-mining:Crafting:MakeItem', function(data) local bartext, a
 	lockInv(true)
 	local isDrilling = true
 	if data.ret then -- If jewelcutting
-		if not HasItem("drillbit", 1) then
+		if not HasItemClient("drillbit", 1) then
 			triggerNotify(nil, Loc[Config.Lan].error["no_drillbit"], 'error')
 			TriggerEvent('jim-mining:JewelCut', data)
 			lockInv(false)
